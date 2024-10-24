@@ -1,3 +1,19 @@
 <template>
-    <p>这是登录界面</p>
+    <Header></Header>
+    <Login></Login>
+    <Footer></Footer>
 </template>
+
+
+<script>
+import Footer from '@/components/Footer.vue';
+import Header from '@/components/Header.vue';
+import Login from '@/components/Login.vue';
+export default {
+    components:{
+        Footer,
+        Header,
+        Login
+    }
+}
+</script>
