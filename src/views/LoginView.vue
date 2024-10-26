@@ -1,9 +1,17 @@
 <template>
-    <Header></Header>
-    <Login></Login>
-    <Footer></Footer>
+    <div class="contianer">
+        <Header></Header>
+        <Login></Login>
+        <Footer></Footer>
+    </div>
 </template>
 
+<style>
+.container{
+    max-height: fit-content;
+}
+
+</style>
 
 <script>
 import Footer from '@/components/Footer.vue';

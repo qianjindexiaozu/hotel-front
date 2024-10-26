@@ -26,7 +26,7 @@
                 </div>
                 
                 <div style="margin: 20px 0"></div>
-                <el-button type="primary" @click="toHome">登录</el-button>
+                <el-button type="primary" @click="login">登录</el-button>
             </div>
         </div>
     </div>
@@ -40,6 +40,7 @@ import img3 from '@/assets/imgs/3.jpg'
 import img4 from '@/assets/imgs/4.jpg'
 import logo1 from '@/assets/imgs/logo1.png'
 import logo2 from '@/assets/imgs/logo2.png'
+import axios from 'axios'
 
 
 export default {
@@ -55,15 +56,32 @@ export default {
             logo2,
             phone:'',
             password:'',
+            message:'',
         };
     },
     methods:{
-        toHome(){
-            if(this.phone == "15266668888" && this.password == "123456"){
-                this.$router.push({
+        login(){
+            axios.post('http://localhost:8080/user/login',null, {
+                params: {
+                    phone: this.phone,
+                    password: window.btoa(this.password)
+                }
+            })
+            .then(function (response) {
+                console.log(response);
+                if(response.data.code == 0){
+                    this.$router.push({
                     path:"/admin"
-                })
-            }
+                    })
+                }
+                else{
+                    this.message = response.data.message
+                    console.log(this.message)
+                }
+            }.bind(this))
+            .catch(function (error) {
+                console.log(error);
+            });
         }
     }
 };
@@ -72,6 +90,7 @@ export default {
 <style>
 .carousel-container {
   position: relative;
+  height: 100%;
 }
 
 .carousel-image {
@@ -81,7 +100,7 @@ export default {
 }
 
 .el-carousel {
-    height: 100vh; /* 占据整个视口高度 */
+    height: 100%; /* 占据整个视口高度 */
 }
 
 .login-form{

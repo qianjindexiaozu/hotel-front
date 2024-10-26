@@ -1,6 +1,6 @@
 <template>
     <div class="title">
-        <img :src="logo1" width="30">
+        <img :src="logo1" width="30" style="margin-left: 10px; margin-right: 10px;">
         酒店管理系统
     </div>
 </template>
@@ -24,8 +24,8 @@ export default{
   display: flex;
   align-items: center;
   font-size: 30px;
-  font-family: 'PingFang SC', '苹方', sans-serif; 
-  font-weight: bold; 
+  font-family: 'Ding', sans-serif; 
+  /* font-weight: bold;  */
   color: #000000;
   background-color: rgb(255, 255, 255);
   height: 60px;

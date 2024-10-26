@@ -1,0 +1,13 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+@font-face {
+    font-family: "Ding";
+    /* font-weight: 100; */
+    src: url("./assets/fonts/Ding/cnqIDwcxNih7.woff2") format("woff2"),
+      url("./assets/fonts/Ding/cnqIDwcxNih7.woff") format("woff");
+    font-display: swap;
+  }
+  
+
