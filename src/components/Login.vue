@@ -26,7 +26,7 @@
                 </div>
                 
                 <div style="margin: 20px 0"></div>
-                <el-button type="primary" @click="login">登录</el-button>
+                <el-button type="primary" @click="handleLogin">登录</el-button>
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@ import img3 from '@/assets/imgs/3.jpg'
 import img4 from '@/assets/imgs/4.jpg'
 import logo1 from '@/assets/imgs/logo1.png'
 import logo2 from '@/assets/imgs/logo2.png'
-import axios from 'axios'
+import user from '@/api/user.js'
 
 
 export default {
@@ -60,30 +60,10 @@ export default {
         };
     },
     methods:{
-        login(){
-            axios.post('http://localhost:8080/user/login',null, {
-                params: {
-                    phone: this.phone,
-                    password: window.btoa(this.password)
-                }
-            })
-            .then(function (response) {
-                console.log(response);
-                if(response.data.code == 0){
-                    this.$router.push({
-                    path:"/admin"
-                    })
-                }
-                else{
-                    this.message = response.data.message
-                    console.log(this.message)
-                }
-            }.bind(this))
-            .catch(function (error) {
-                console.log(error);
-            });
+        handleLogin(){
+            user.login(this.phone, this.password)   
         }
-    }
+    },
 };
 </script>
 
