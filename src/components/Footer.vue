@@ -2,7 +2,6 @@
     <div class="centered">
         <div></div>
         <p>Designed by qianjindexiaozu</p>
-        <p>Contact me ?</p>
         <div class="icon-container">
             <a href="https://github.com/qianjindexiaozu">
                 <img :src="github_svg" width="30" height="30">
@@ -31,7 +30,7 @@
     flex-direction: column;
     align-items: center;
     display: flex;
-    height: 40vh;
+    height: auto;
 }
 
 .el-footer {

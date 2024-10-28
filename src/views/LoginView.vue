@@ -6,13 +6,6 @@
     </div>
 </template>
 
-<style>
-.container{
-    max-height: fit-content;
-}
-
-</style>
-
 <script>
 import Footer from '@/components/Footer.vue';
 import Header from '@/components/Header.vue';

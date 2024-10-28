@@ -1,36 +1,38 @@
 <template>
     <div class="carousel-container">
-        <el-carousel indicator-position="outside" height="95vh">
+        <el-carousel height="95vh">
             <el-carousel-item v-for="item in images" :key="item">
                 <img :src="item" alt="Carousel Image" class="carousel-image" />
             </el-carousel-item>
         </el-carousel>
-        <div class="login-form">
-            <img :src="logo2" class="logo"/>
-            <div style="margin: 20px 0; text-align: center;font-size: 24px"><b>登 录</b></div>
-            <div class="form-container">
-                <div>
-                    <el-icon><Cellphone /></el-icon>
-                    <el-input v-model="phone" style="width: 240px" placeholder="请输入注册手机号" />
-                </div>
-                <div style="margin: 10px 0"></div>
-                <div>
-                    <el-icon><Key /></el-icon>
-                    <el-input
-                        v-model="password"
-                        style="width: 240px"
-                        type="password"
-                        placeholder="请输入密码"
-                        show-password
-                    />
-                </div>
-                
-                <div style="margin: 20px 0"></div>
-                <el-button type="primary" @click="handleLogin">登录</el-button>
+    </div>
+    <div class="login-form">
+        <img :src="logo2" class="logo"/>
+        <div style="margin: 20px 0; text-align: center;font-size: 24px"><b>登 录</b></div>
+        <div class="form-container">
+            <div style="margin-top: 20px;">
+                <el-icon style="margin-right: 5px;"><Cellphone /></el-icon>
+                <el-input v-model="phone" style="width: 240px" placeholder="请输入注册手机号" />
             </div>
+            <div style="margin: 10px 0"></div>
+            <div>
+                <el-icon style="margin-right: 5px;"><Key /></el-icon>
+                <el-input
+                    v-model="password"
+                    style="width: 240px"
+                    type="password"
+                    placeholder="请输入密码"
+                    show-password
+                />
+            </div>
+            <div style="margin: 20px 0"></div>
+            <el-button type="primary" @click="handleLogin">登录</el-button>
+            <el-row style="margin-top: 40px; width: 100%;">
+                <el-col style="text-align: left;" :span="12"><el-link @click="handleRegiaster">还没注册？</el-link></el-col>
+                <el-col style="text-align: right;" :span="12"><el-link @click="handleForget">忘记密码？</el-link></el-col>
+            </el-row>
         </div>
     </div>
-    
 </template>
 
 <script>
@@ -40,7 +42,7 @@ import img3 from '@/assets/imgs/3.jpg'
 import img4 from '@/assets/imgs/4.jpg'
 import logo1 from '@/assets/imgs/logo1.png'
 import logo2 from '@/assets/imgs/logo2.png'
-import user from '@/api/user.js'
+import router from '@/router'
 
 
 export default {
@@ -62,6 +64,16 @@ export default {
     methods:{
         handleLogin(){
             user.login(this.phone, this.password)   
+        },
+        handleRegiaster(){
+            router.push({
+                path: '/register'
+            })
+        },
+        handleForget(){
+            router.push({
+                path:'/forget'
+            })
         }
     },
 };
@@ -70,7 +82,7 @@ export default {
 <style>
 .carousel-container {
   position: relative;
-  height: 100%;
+  height: auto;
 }
 
 .carousel-image {
@@ -85,7 +97,7 @@ export default {
 
 .login-form{
     position: absolute;
-    top: 25%;
+    top: 30%;
     left: 70%;
     height: 300px;
     padding: 20px; /* 内边距 */
@@ -103,7 +115,6 @@ export default {
   display: flex;
   flex-direction: column; /* 垂直排列元素 */
   align-items: center;    /* 水平居中 */
-  height: 100vh;          /* 使容器充满视口高度 */
 }
 
 </style>

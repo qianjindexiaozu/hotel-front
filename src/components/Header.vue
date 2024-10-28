@@ -29,5 +29,6 @@ export default{
   color: #000000;
   background-color: rgb(255, 255, 255);
   height: 60px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 阴影效果 */
 }
 </style>
