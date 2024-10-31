@@ -5,6 +5,8 @@ import { md5 } from 'js-md5';
 
 export default{
     login,
+    getVerifyCode,
+    register,
 }
 
 async function login(phone, password){
@@ -40,4 +42,29 @@ async function login(phone, password){
         console.log(phone, password);
     }
    
+}
+
+
+async function getVerifyCode(phone) {
+    let response = await api.post('user/register_sms', {
+        "phone": phone,
+    })
+    if(response.data.code === 0){
+        return true;
+    }
+    else{
+        return response.data.data;
+    }
+}
+
+async function register(ruleForm) {
+    let response = await post({
+        info: ruleForm,
+    })
+    if(response.data.code === 0){
+        return true;
+    }
+    else{
+        return response.data.data;
+    }
 }

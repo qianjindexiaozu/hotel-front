@@ -1,4 +1,8 @@
 <template>
+    <div style="max-width: 600px">
+
+
+    </div>
     <div class="register-form">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="auto" style="max-width: 600px; margin-left: 50px;">
             <div style="text-align: left; font-size: 24px; height: 60px;"><b>新用户注册</b></div>
@@ -18,7 +22,7 @@
                 <el-input id="phone" v-model="ruleForm.phone" style="width: 300px;"/>
                 <el-button v-bind:class="{grey:isGrey,blue:!isGrey}" 
                             v-bind:disabled="dis" type="primary" 
-                            @click="getCode"
+                            @click="getCode()"
                             style="margin-left: 10px;">
                     <span v-if="show">发送验证码</span>
                     <span v-else>重新发送({{count}}s)</span>
@@ -46,6 +50,8 @@
 
 <script>
 import router from '@/router';
+import user from '@/api/user.js';
+import { ElMessage, ElNotification } from 'element-plus';
 
 export default {
     data(){
@@ -64,8 +70,7 @@ export default {
             if(!value){
                 return callback(new Error("手机号码不能为空"))
             }
-            const phoneRegex = /^1[3-9]\d{9}$/;
-            let res = phoneRegex.test(value);
+            let res = this.phoneRegex.test(value);
             if(!res){
                 return callback(new Error("手机号码格式错误"))
             }
@@ -133,7 +138,8 @@ export default {
                     {required: true, message: '请确认密码', trigger: 'blur'},
                     {validator: handleConfirmPassword, trigger: 'blur'}
                 ]
-            }
+            },
+            phoneRegex: /^1[3-9]\d{9}$/,
         }
     },
     methods:{
@@ -142,7 +148,20 @@ export default {
                 if (valid) {
                     // 表单验证通过，执行注册逻辑
                     console.log('注册验证通过', this.ruleForm);
-                    
+                    let res = user.register(this.ruleForm)
+                    if(res){
+                        ElNotification({
+                            title: 'Success',
+                            message: '注册成功！',
+                            type: 'success',
+                            plain: 'true',
+                        })
+                        setTimeout(() =>{
+                            router.replace({
+                                path:'/'
+                            })
+                        }, 1000)    // 注册成功一秒后，跳转回登陆页面
+                    }
                 } else {
                     console.log('表单验证失败');
                     return false;
@@ -155,26 +174,52 @@ export default {
             })
         },
         getCode() {
-            let TIME_COUNT = 60;
-            if (!this.timer) {
-                this.count = TIME_COUNT;
-                this.isGrey = true;
-                this.show = false;
-                this.dis = true;
-                this.timer = setInterval(() => {
-                    if (this.count > 0 && this.count <= TIME_COUNT) { 
-                        this.count--;
-                    } else {
-                        this.dis = false;
-                        this.isGrey = false;
-                        this.show = true;
-                        clearInterval(this.timer);
-                        this.timer = null;
-                    }
-                }, 1000);
+            let valid = this.phoneRegex.test(this.ruleForm.phone);
+            if (valid) {
+                let TIME_COUNT = 60;
+                if (!this.timer) {
+                    this.count = TIME_COUNT;
+                    this.isGrey = true;
+                    this.show = false;
+                    this.dis = true;
+                    this.timer = setInterval(() => {
+                        if (this.count > 0 && this.count <= TIME_COUNT) { 
+                            this.count--;
+                        } else {
+                            this.dis = false;
+                            this.isGrey = false;
+                            this.show = true;
+                            clearInterval(this.timer);
+                            this.timer = null;
+                        }
+                    }, 1000);
+                }
+                let res = user.getVerifyCode(this.ruleForm.phone);
+                if(res){
+                    ElNotification({
+                        title: 'Success',
+                        message:'验证码发送成功，请注意查收！',
+                        type: 'success',
+                        plain: 'true',
+                    })
+                } else {
+                    ElNotification({
+                        title: 'Error',
+                        message: res,
+                        type: 'error',
+                        plain: 'true',
+                    })
+                }
             }
-            
-        }
+            else {
+                ElNotification({
+                    title: 'Error',
+                    message: '请先正确填写号码！',
+                    type: 'error',
+                    plain: 'true',
+                })
+            }
+        },
     }
 }
 
@@ -186,4 +231,8 @@ export default {
     background-color: rgb(244, 244, 244);
     height: fit-content;
 }
+.el-alert {
+  margin: 0 auto;
+}
+
 </style>
