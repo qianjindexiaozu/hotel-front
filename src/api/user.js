@@ -53,18 +53,23 @@ async function getVerifyCode(phone) {
         return true;
     }
     else{
-        return response.data.data;
+        return response.data.message;
     }
 }
 
 async function register(ruleForm) {
-    let response = await post({
-        info: ruleForm,
+    let response = await api.post('user/register',{
+        "name": ruleForm.name,
+        "gender": ruleForm.gender,
+        "idNumber": ruleForm.idNumber,
+        "phone": ruleForm.phone,
+        "password": md5(ruleForm.password),
+        "verifyCode": ruleForm.verification,
     })
     if(response.data.code === 0){
         return true;
     }
     else{
-        return response.data.data;
+        return response.data.message;
     }
 }

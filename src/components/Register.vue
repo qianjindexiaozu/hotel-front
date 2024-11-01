@@ -148,20 +148,30 @@ export default {
                 if (valid) {
                     // 表单验证通过，执行注册逻辑
                     console.log('注册验证通过', this.ruleForm);
-                    let res = user.register(this.ruleForm)
-                    if(res){
-                        ElNotification({
-                            title: 'Success',
-                            message: '注册成功！',
-                            type: 'success',
-                            plain: 'true',
-                        })
-                        setTimeout(() =>{
-                            router.replace({
-                                path:'/'
+                    user.register(this.ruleForm).then((res) => {
+                        if(res === true){
+                            ElNotification({
+                                title: 'Success',
+                                message: '注册成功！',
+                                type: 'success',
+                                plain: 'true',
                             })
-                        }, 1000)    // 注册成功一秒后，跳转回登陆页面
-                    }
+                            setTimeout(() =>{
+                                router.replace({
+                                    path:'/'
+                                })
+                            }, 1000)    // 注册成功一秒后，跳转回登陆页面
+                        }
+                        else{
+                            ElNotification({
+                                title: 'Error',
+                                message: res,
+                                type: 'info',
+                                plain: 'true',
+                            })
+                        }
+                    })
+                    
                 } else {
                     console.log('表单验证失败');
                     return false;
@@ -194,22 +204,23 @@ export default {
                         }
                     }, 1000);
                 }
-                let res = user.getVerifyCode(this.ruleForm.phone);
-                if(res){
-                    ElNotification({
-                        title: 'Success',
-                        message:'验证码发送成功，请注意查收！',
-                        type: 'success',
-                        plain: 'true',
-                    })
-                } else {
-                    ElNotification({
-                        title: 'Error',
-                        message: res,
-                        type: 'error',
-                        plain: 'true',
-                    })
-                }
+                user.getVerifyCode(this.ruleForm.phone).then((res) => {
+                    if(res === true){
+                        ElNotification({
+                            title: 'Success',
+                            message:'验证码发送成功，请注意查收！',
+                            type: 'success',
+                            plain: 'true',
+                        })
+                    } else {
+                        ElNotification({
+                            title: 'Error',
+                            message: res,
+                            type: 'error',
+                            plain: 'true',
+                        })
+                    }
+                });
             }
             else {
                 ElNotification({
