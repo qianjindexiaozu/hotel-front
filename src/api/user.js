@@ -7,6 +7,7 @@ export default{
     login,
     getVerifyCode,
     register,
+    forget,
 }
 
 async function login(phone, password){
@@ -45,10 +46,17 @@ async function login(phone, password){
 }
 
 
-async function getVerifyCode(phone) {
-    let response = await api.post('user/register_sms', {
-        "phone": phone,
-    })
+async function getVerifyCode(phone, condition) {
+    let response;
+    if(condition === "register"){
+        response = await api.post('user/register_sms', {
+            "phone": phone,
+        })
+    } else {
+        response = await api.post('user/forget_sms', {
+            "phone": phone,
+        })
+    }
     if(response.data.code === 0){
         return true;
     }
@@ -62,6 +70,20 @@ async function register(ruleForm) {
         "name": ruleForm.name,
         "gender": ruleForm.gender,
         "idNumber": ruleForm.idNumber,
+        "phone": ruleForm.phone,
+        "password": md5(ruleForm.password),
+        "verifyCode": ruleForm.verification,
+    })
+    if(response.data.code === 0){
+        return true;
+    }
+    else{
+        return response.data.message;
+    }
+}
+
+async function forget(ruleForm) {
+    let response = await api.post('user/forget',{
         "phone": ruleForm.phone,
         "password": md5(ruleForm.password),
         "verifyCode": ruleForm.verification,

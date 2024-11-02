@@ -1,20 +1,9 @@
 <template>
-    <div class="register-form">
+    <div class="forget-container">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="auto" style="max-width: 600px; margin-left: 50px;">
-            <div style="text-align: left; font-size: 24px; height: 60px;"><b>新用户注册</b></div>
-            <el-form-item label="姓名" prop="name" style="margin: 20px 0;">
-                <el-input id="name" v-model="ruleForm.name" style="width: 300px;"/>
-            </el-form-item>
-            <el-form-item label="性别" prop="gender" style="margin: 20px 0;">
-            <el-radio-group v-model="ruleForm.gender">
-                <el-radio id="gender-male" value="Male">男</el-radio>
-                <el-radio id="gender-female" value="Female">女</el-radio>
-            </el-radio-group>
-            </el-form-item>
-            <el-form-item label="身份证号" prop="idNumber" style="margin: 20px 0;">
-                <el-input id="idNumber" v-model="ruleForm.idNumber" style="width: 300px;"/>
-            </el-form-item>
-            <el-form-item label="手机号" prop="phone" style="margin: 20px 0;">
+            <div style="text-align: left; font-size: 24px; height: 60px;"><b>忘记密码</b></div>
+            
+            <el-form-item label="注册手机号" prop="phone" style="margin: 20px 0;">
                 <el-input id="phone" v-model="ruleForm.phone" style="width: 300px;"/>
                 <el-button v-bind:class="{grey:isGrey,blue:!isGrey}" 
                             v-bind:disabled="dis" type="primary" 
@@ -30,38 +19,24 @@
             <el-alert type="info" show-icon :closable="false">
                 <p>密码应不少于6位，不多于30位，且同时包含数字和字母</p>
             </el-alert>
-            <el-form-item label="密码" prop="password" style="margin: 20px 0;">
+            <el-form-item label="重置密码" prop="password" style="margin: 20px 0;">
                 <el-input id="password" v-model="ruleForm.password" style="width: 300px;" type="password" show-password/>
             </el-form-item>
             <el-form-item label="确认密码" prop="confirmPassword" style="margin: 20px 0;">
                 <el-input id="confirmPassword" v-model="ruleForm.confirmPassword" style="width: 300px;" type="password" show-password/>
             </el-form-item>
             <el-form-item style="margin-bottom: 0;">
-                <el-button type="primary" style="margin: 10px;" @click="handleRegister">注册</el-button>
+                <el-button type="primary" style="margin: 10px;" @click="handleForget">重置</el-button>
                 <el-button @click="handleCancle">取消</el-button>
             </el-form-item>
         </el-form>
     </div>
+
 </template>
 
 <script>
-import router from '@/router';
-import user from '@/api/user.js';
-import { ElNotification } from 'element-plus';
-
-export default {
+export default{
     data(){
-        var checkIdNumber = (rule, value, callback) => {
-            if(!value){
-                return callback(new Error("身份证号码不能为空"))
-            }
-            const idCardRegex = /^(?:\d{15}|\d{17}[\dX])$/;
-            let res = idCardRegex.test(value);
-            if(!res){
-                return callback(new Error("身份证号码格式错误"))
-            }
-            callback();
-        };
         var checkPhone = (rule, value, callback) => {
             if(!value){
                 return callback(new Error("手机号码不能为空"))
@@ -99,26 +74,12 @@ export default {
             timer: null, //设置计时器,
             count: "",
             ruleForm:{
-                name:'',
-                gender:'',
-                idNumber:'',
                 phone:'',
                 verification:'',
                 password:'',
                 confirmPassword:'',
             },
             rules:{
-                name:[
-                    {required: true, message: '姓名不能为空', trigger: 'blur'},
-                    {min:2, max:30, message: '长度应在2到30之间', trigger: 'blur'}
-                ],
-                gender:[
-                    {required: true, message: '性别必须填写', trigger: 'change'}
-                ],
-                idNumber:[
-                    {required: true, message: '身份证号码不能为空', trigger: 'blur'},
-                    {validator: checkIdNumber, trigger: 'blur'}
-                ],
                 phone:[
                     {required: true, message: '手机号码不能为空', trigger: 'blur'},
                     {validator: checkPhone, trigger: 'blur'}
@@ -139,46 +100,6 @@ export default {
         }
     },
     methods:{
-        handleRegister() {
-            this.$refs.ruleForm.validate((valid) => {
-                if (valid) {
-                    // 表单验证通过，执行注册逻辑
-                    console.log('注册验证通过', this.ruleForm);
-                    user.register(this.ruleForm).then((res) => {
-                        if(res === true){
-                            ElNotification({
-                                title: 'Success',
-                                message: '注册成功！',
-                                type: 'success',
-                                plain: 'true',
-                            })
-                            setTimeout(() =>{
-                                router.replace({
-                                    path:'/'
-                                })
-                            }, 1000)    // 注册成功一秒后，跳转回登陆页面
-                        }
-                        else{
-                            ElNotification({
-                                title: 'Error',
-                                message: res,
-                                type: 'info',
-                                plain: 'true',
-                            })
-                        }
-                    })
-                    
-                } else {
-                    console.log('表单验证失败');
-                    return false;
-                }
-            });
-        },
-        handleCancle(){
-            router.replace({
-                path:'/'
-            })
-        },
         getCode() {
             let valid = this.phoneRegex.test(this.ruleForm.phone);
             if (valid) {
@@ -200,7 +121,7 @@ export default {
                         }
                     }, 1000);
                 }
-                user.getVerifyCode(this.ruleForm.phone, "register").then((res) => {
+                user.getVerifyCode(this.ruleForm.phone, "forget").then((res) => {
                     if(res === true){
                         ElNotification({
                             title: 'Success',
@@ -227,19 +148,49 @@ export default {
                 })
             }
         },
+        handleForget(){
+            this.$refs.ruleForm.validate((valid) => {
+                if (valid) {
+                    console.log('验证通过', this.ruleForm);
+                    user.forget(this.ruleForm).then((res) => {
+                        if(res === true){
+                            ElNotification({
+                                title: 'Success',
+                                message: '密码重置成功！',
+                                type: 'success',
+                                plain: 'true',
+                            })
+                            setTimeout(() =>{
+                                router.replace({
+                                    path:'/'
+                                })
+                            }, 1000)
+                        }
+                        else{
+                            ElNotification({
+                                title: 'Error',
+                                message: res,
+                                type: 'info',
+                                plain: 'true',
+                            })
+                        }
+                    })
+                    
+                } else {
+                    console.log('表单验证失败');
+                    return false;
+                }
+            })
+        },
     }
 }
 
 </script>
 
 <style>
-.register-form{
+.forget-container{
     position: relative;
     background-color: rgb(244, 244, 244);
     height: 100vh;
 }
-.el-alert {
-  margin: 0 auto;
-}
-
 </style>
