@@ -8,6 +8,7 @@ export default{
     getVerifyCode,
     register,
     forget,
+    changePic,
 }
 
 async function login(phone, password){
@@ -39,8 +40,8 @@ async function login(phone, password){
         }
         
     } else {
-        console.log(response);  // 请求失败，response为失败信息
-        console.log(phone, password);
+        console.log(response)
+        return response.data.message;
     }
    
 }
@@ -87,6 +88,19 @@ async function forget(ruleForm) {
         "phone": ruleForm.phone,
         "password": md5(ruleForm.password),
         "verifyCode": ruleForm.verification,
+    })
+    if(response.data.code === 0){
+        return true;
+    }
+    else{
+        return response.data.message;
+    }
+}
+
+async function changePic(pic) {
+    let response = await api.put('user/change_pic', {
+        "token": store.state.token,
+        "pic": pic
     })
     if(response.data.code === 0){
         return true;

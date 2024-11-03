@@ -22,14 +22,14 @@ const store = createStore({
     mutations: {
         setToken(state, newToken){
             state.token = newToken
-            // console.log("setToken正在执行", this.state.token)
+            console.log("setToken正在执行", this.state.token)
         },
         parseToken(state, phone){
             try {
                 // 不需要验证签名，只解析 payload
                 const decoded = jwtDecode(state.token);
                 console.log(decoded);
-                state.localStorage.phone = phone;
+                state.localStorage.phone = decoded.claims.phone;
                 state.localStorage.name = decoded.claims.name;
                 state.localStorage.gender = decoded.claims.gender;
                 state.localStorage.idNumber = decoded.claims.idNumber;
@@ -39,6 +39,9 @@ const store = createStore({
                 console.error("Token 解析错误:", error);
                 return null;
             }
+        },
+        changePic(state, pic){
+            state.localStorage.pic = pic;
         }
     },
     actions: {

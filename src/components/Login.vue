@@ -44,6 +44,7 @@ import logo1 from '@/assets/imgs/logo1.png'
 import logo2 from '@/assets/imgs/logo2.png'
 import router from '@/router'
 import user from '@/api/user.js'
+import { ElNotification } from 'element-plus'
 
 
 export default {
@@ -64,7 +65,16 @@ export default {
     },
     methods:{
         handleLogin(){
-            console.log(user.login(this.phone, this.password))
+            user.login(this.phone, this.password).then((res) =>{
+                if(res != null){
+                    ElNotification({
+                        title:"Error",
+                        message:res,
+                        type:"error",
+                        plain:true
+                    })
+                }
+            })
         },
         handleRegiaster(){
             router.push({

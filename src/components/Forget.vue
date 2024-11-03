@@ -35,6 +35,10 @@
 </template>
 
 <script>
+import router from '@/router';
+import user from '@/api/user';
+import { ElNotification } from 'element-plus';
+
 export default{
     data(){
         var checkPhone = (rule, value, callback) => {
@@ -182,6 +186,11 @@ export default{
                 }
             })
         },
+        handleCancle(){
+            router.replace({
+                path:'/'
+            })
+        }
     }
 }
 

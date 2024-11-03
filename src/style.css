@@ -6,8 +6,6 @@ html, body {
     font-family: "Ding";
     /* font-weight: 100; */
     src: url("./assets/fonts/Ding/cnqIDwcxNih7.woff2") format("woff2"),
-      url("./assets/fonts/Ding/cnqIDwcxNih7.woff") format("woff");
+        url("./assets/fonts/Ding/cnqIDwcxNih7.woff") format("woff");
     font-display: swap;
-  }
-  
-
+}
