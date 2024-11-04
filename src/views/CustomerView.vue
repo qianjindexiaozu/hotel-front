@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import store from '@/stores';
-import router from '@/router';
 import LoginedHeader from '@/components/LoginedHeader.vue';
 import Footer from '@/components/Footer.vue';
 import Reserve from '@/components/Reserve.vue';

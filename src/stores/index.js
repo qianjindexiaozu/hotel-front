@@ -24,7 +24,7 @@ const store = createStore({
             state.token = newToken
             console.log("setToken正在执行", this.state.token)
         },
-        parseToken(state, phone){
+        parseToken(state){
             try {
                 // 不需要验证签名，只解析 payload
                 const decoded = jwtDecode(state.token);

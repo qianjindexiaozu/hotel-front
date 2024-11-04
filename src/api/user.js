@@ -9,6 +9,8 @@ export default{
     register,
     forget,
     changePic,
+    changeInfo,
+    changePassword,
 }
 
 async function login(phone, password){
@@ -19,7 +21,7 @@ async function login(phone, password){
     if (response.data.code === 0) {
         // console.log(response.data); // 请求成功，response为成功信息
         store.commit('setToken', response.data.data)    //设置token
-        store.commit('parseToken', phone)
+        store.commit('parseToken')
         if(store.state.localStorage.role === "Admin"){
             router.push({
                 path:"/admin"
@@ -53,8 +55,12 @@ async function getVerifyCode(phone, condition) {
         response = await api.post('user/register_sms', {
             "phone": phone,
         })
-    } else {
+    } else if (condition === "forget") {
         response = await api.post('user/forget_sms', {
+            "phone": phone,
+        })
+    } else{
+        response = await api.post('user/changeInfo_sms', {
             "phone": phone,
         })
     }
@@ -97,10 +103,48 @@ async function forget(ruleForm) {
     }
 }
 
-async function changePic(pic) {
-    let response = await api.put('user/change_pic', {
+async function changePic(file) {
+    const formData = new FormData();
+    console.log(store.state.token)
+    formData.append('token', store.state.token)
+    formData.append('file', file)
+    let response = await fetch('user/change_pic', {
+        method: 'PUT',
+        body: formData,
+    });
+    if(response.data.code === 0){
+        store.commit('setToken', response.data.data)    //设置token
+        store.commit('parseToken')
+        return true;
+    }
+    else{
+        return response.data.message;
+    }
+}
+
+async function changeInfo(ruleForm) {
+    let response = await api.put('user/changeInfo', {
         "token": store.state.token,
-        "pic": pic
+        "name": ruleForm.name,
+        "gender": ruleForm.gender,
+        "idNumber": ruleForm.idNumber,
+        "phone": ruleForm.phone,
+        "verifyCode": ruleForm.verifyCode
+    })
+    if(response.data.code === 0){
+        store.commit('setToken', response.data.data)    //设置token
+        store.commit('parseToken')
+        return true;
+    }
+    else{
+        return response.data.message;
+    }
+}
+
+async function changePassword(password) {
+    let response = await api.put('user/changePassword', {
+        "token": store.state.token,
+        "password": md5(password),
     })
     if(response.data.code === 0){
         return true;
