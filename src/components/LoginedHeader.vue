@@ -5,6 +5,7 @@
         <el-upload 
           :show-file-list="false"
           :before-upload="(file) => { if (beforeAvatarUpload(file)) uploadAvatar(file); }"
+          :http-request="uploadHttpRequest"
           style="margin-left: 80%; margin-top: 1%;">
           <el-avatar :src="avatarSrc" />
         </el-upload>
@@ -29,7 +30,7 @@ export default{
       this.avatarSrc = "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
     }
     else{
-      this.avatarSrc = store.state.localStorage.pic;
+      this.avatarSrc = "http://localhost:8080/assets/avatars/" + store.state.localStorage.pic;
     }
   },
   methods:{
@@ -49,18 +50,19 @@ export default{
           ElMessage({
             type:'success',
             message:'头像修改成功',
-            plain:'true',
           })
-          this.avatarSrc = store.state.localStorage.pic;
+          this.avatarSrc = "http://localhost:8080/assets/avatars/" + store.state.localStorage.pic;
         }
         else{
           ElMessage({
             type:'error',
             message:res,
-            plain:'true',
           })
         }
       })
+    },
+    uploadHttpRequest(){
+
     }
   }
 }

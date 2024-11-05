@@ -2,6 +2,7 @@ import api from '@/utils/index.js'
 import router from '@/router';
 import store from '@/stores';
 import { md5 } from 'js-md5';
+import axios from 'axios';
 
 export default{
     login,
@@ -105,22 +106,32 @@ async function forget(ruleForm) {
 
 async function changePic(file) {
     const formData = new FormData();
-    console.log(store.state.token)
-    formData.append('token', store.state.token)
-    formData.append('file', file)
-    let response = await fetch('user/change_pic', {
-        method: 'PUT',
-        body: formData,
-    });
-    if(response.data.code === 0){
-        store.commit('setToken', response.data.data)    //设置token
-        store.commit('parseToken')
-        return true;
-    }
-    else{
-        return response.data.message;
+    const token = store.state.token;
+    
+    formData.append('file', file);
+
+    try {
+        const response = await axios.post('http://localhost:8080/user/change_pic', formData, {
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'multipart/form-data',
+            }
+        });
+        
+        // 检查后端返回的响应状态
+        if (response.data.code === 0) {
+            store.commit('setToken', response.data.data); // 更新 token
+            store.commit('parseToken');
+            return true; // 成功时返回 true
+        } else {
+            return response.data.message; // 返回错误消息
+        }
+    } catch (error) {
+        console.error("上传头像失败:", error);
+        return "上传头像失败，请重试"; // 错误时返回统一的错误提示
     }
 }
+
 
 async function changeInfo(ruleForm) {
     let response = await api.put('user/changeInfo', {

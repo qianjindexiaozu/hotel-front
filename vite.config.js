@@ -12,5 +12,17 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  server: {
+    proxy: {
+      '/user': {
+        target: 'http://localhost:8080', // 后端服务器地址
+        changeOrigin: true,
+      },
+      '/room': {
+        target: 'http://localhost:8080', // 后端服务器地址
+        changeOrigin: true,
+      },
+    }
   }
 })
