@@ -1,33 +1,32 @@
 <template>
-    这是管理员界面
-    名字：{{ name }}
-    手机号：{{ phone }}
+    <LoginedHeader></LoginedHeader>
+    <Admin></Admin>
+    <Footer></Footer>
 </template>
 
 <script>
-import store from '@/stores';
 import router from '@/router';
+import LoginedHeader from '@/components/LoginedHeader.vue';
+import Footer from '@/components/Footer.vue';
+import Admin from '@/components/Admin/Admin.vue';
 
 export default{
     created(){
-        if(store.state.token === ''){
-            router.replace({
-                path:"/"
-            })
-        }
-        this.name = store.state.localStorage.name;
-        this.phone = store.state.localStorage.phone;
+        // if(store.state.token === ''){
+        //     router.replace({
+        //         path:"/"
+        //     })
+        // }
         setTimeout(() => {
-            this.$router.push({
+            router.replace({
                 path: '/'
             })
-        }, 1000 * 60 * 60 * 6)  // 六小时后强制退回登陆页面
+        }, 1000 * 60 * 60)  // 一小时后强制退回登陆页面
     },
-    data() {
-        return{
-            name:'',
-            phone:'',
-        }
-    }
+    components:{
+        LoginedHeader,
+        Footer,
+        Admin,
+    },
 }
 </script>

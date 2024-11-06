@@ -46,16 +46,19 @@
             </el-form-item>
             <el-form-item style="margin-bottom: 0;">
                 <el-button type="primary" style="margin: 10px;" @click="changePassword">修改</el-button>
-                <el-button @click="handleCancle">取消</el-button>
+                
             </el-form-item>
         </el-form>
+    </div>
+    <div class="logout">
+        <el-button @click="handleLogOut">退出登录</el-button>
     </div>
 </template>
 
 <script>
 import router from '@/router';
 import user from '@/api/user.js';
-import { ElMessage, ElNotification } from 'element-plus';
+import { ElNotification } from 'element-plus';
 import store from '@/stores';
 
 export default {
@@ -252,6 +255,12 @@ export default {
                 })
             }
         },
+        handleLogOut(){
+            router.replace({
+                path:'/'
+            });
+            store.commit('cleanToken');
+        },
     }
 }
 
@@ -261,8 +270,14 @@ export default {
 .self-form{
     position: relative;
     background-color: rgb(244, 244, 244);
-    height: 100vh;
+    height: 80vh;
 }
+
+.logout{
+    background-color: rgb(244, 244, 244);
+    height: 10vh;
+}
+
 .el-alert {
   margin: 0 auto;
 }

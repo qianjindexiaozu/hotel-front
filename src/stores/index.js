@@ -42,7 +42,16 @@ const store = createStore({
         },
         changePic(state, pic){
             state.localStorage.pic = pic;
-        }
+        },
+        cleanToken(){
+            state.token = '';
+            state.localStorage.phone = '';
+            state.localStorage.name = '';
+            state.localStorage.gender = '';
+            state.localStorage.idNumber = '';
+            state.localStorage.role = '';
+            state.localStorage.pic = '';
+        },
     },
     actions: {
 

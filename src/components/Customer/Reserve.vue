@@ -1,5 +1,5 @@
 <template>
-    <el-container class="layout-container-demo" style="height: 100vh;">
+    <el-container class="layout-container-demo" style="height: 90vh;">
         <el-aside width="200px">
             <el-scrollbar>
                 <el-menu>
@@ -24,7 +24,7 @@
 <script>
 import store from '@/stores';
 import Book from './Book.vue';
-import Self from './Self.vue';
+import Self from '../Self.vue';
 
 export default {
     data() {

@@ -1,7 +1,13 @@
 <template>
     <div class="title">
         <img :src="logo1" width="30" style="margin-left: 10px; margin-right: 10px;">
-        酒店欢迎您
+        酒店管理系统
+        <el-tooltip
+        class="box-item"
+        effect="dark"
+        content="点击更换头像"
+        placement="bottom"
+      >
         <el-upload 
           :show-file-list="false"
           :before-upload="(file) => { if (beforeAvatarUpload(file)) uploadAvatar(file); }"
@@ -9,6 +15,8 @@
           style="margin-left: 80%; margin-top: 1%;">
           <el-avatar :src="avatarSrc" />
         </el-upload>
+      </el-tooltip>
+        
     </div>
 </template>
 
