@@ -6,7 +6,7 @@
             <el-table-column label="价格" prop="roomPrice"></el-table-column>
             <el-table-column label="操作">
                 <template v-slot="scope">
-                    <el-button @click="openEditDialog(scope.row)" size="small">修改价格</el-button>
+                    <el-button @click="openEditDialog(scope.row)" size="small" type="primary">修改价格</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -53,7 +53,7 @@ export default {
                 else{
                     ElNotification({
                         title:'Error',
-                        message:res,
+                        message:res.message,
                         type:'error',
                     })
                 }
@@ -93,6 +93,13 @@ export default {
                     })
                     this.fetchData();
                     this.editVisible = false;
+                }
+                else{
+                    ElNotification({
+                        title:'Error',
+                        message:res,
+                        type:'error',
+                    })
                 }
             })
         },

@@ -12,6 +12,10 @@ export default{
     changePic,
     changeInfo,
     changePassword,
+    getStaff,
+    setStaff,
+    deleteStaff,
+    newStaff,
 }
 
 async function login(phone, password){
@@ -156,6 +160,59 @@ async function changePassword(password) {
     let response = await api.put('user/changePassword', {
         "token": store.state.token,
         "password": md5(password),
+    })
+    if(response.data.code === 0){
+        return true;
+    }
+    else{
+        return response.data.message;
+    }
+}
+
+async function getStaff() {
+    let response = await api.get('user/get_staff', {
+        "token": store.state.token,
+    })
+    return response.data;
+}
+
+async function setStaff(userId, newInfo) {
+    let response = await api.put('user/set_staff', {
+        "token": store.state.token,
+        "userId": userId,
+        "name": newInfo.name,
+        "gender": newInfo.gender,
+        "idNumber": newInfo.idNumber,
+        "phone": newInfo.phone,
+    })
+    if(response.data.code === 0){
+        return true;
+    }
+    else{
+        return response.data.message;
+    }
+}
+
+async function deleteStaff(userId) {
+    let response = await api.delete('/user/delete_staff', {
+        "token": store.state.token,
+        "userId": userId,
+    })
+    if(response.data.code === 0){
+        return true;
+    }
+    else{
+        return response.data.message;
+    }
+}
+
+async function newStaff(ruleForm) {
+    let response = await api.post('/user/new_staff', {
+        "token": store.state.token,
+        "name": ruleForm.name,
+        "gender": ruleForm.gender,
+        "idNumber": ruleForm.idNumber,
+        "phone": ruleForm.phone,
     })
     if(response.data.code === 0){
         return true;

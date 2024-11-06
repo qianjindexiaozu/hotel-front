@@ -29,28 +29,29 @@ const store = createStore({
                 // 不需要验证签名，只解析 payload
                 const decoded = jwtDecode(state.token);
                 console.log(decoded);
-                state.localStorage.phone = decoded.claims.phone;
-                state.localStorage.name = decoded.claims.name;
-                state.localStorage.gender = decoded.claims.gender;
-                state.localStorage.idNumber = decoded.claims.idNumber;
-                state.localStorage.role = decoded.claims.role;
-                state.localStorage.pic = decoded.claims.pic;
+                store.state.localStorage.phone = decoded.claims.phone;
+                store.state.localStorage.name = decoded.claims.name;
+                store.state.localStorage.gender = decoded.claims.gender;
+                store.state.localStorage.idNumber = decoded.claims.idNumber;
+                store.state.localStorage.role = decoded.claims.role;
+                store.state.localStorage.pic = decoded.claims.pic;
             } catch (error) {
                 console.error("Token 解析错误:", error);
                 return null;
             }
         },
         changePic(state, pic){
-            state.localStorage.pic = pic;
+            store.state.localStorage.pic = pic;
         },
         cleanToken(){
-            state.token = '';
-            state.localStorage.phone = '';
-            state.localStorage.name = '';
-            state.localStorage.gender = '';
-            state.localStorage.idNumber = '';
-            state.localStorage.role = '';
-            state.localStorage.pic = '';
+            store.state.token = '';
+            store.state.localStorage.phone = '';
+            store.state.localStorage.name = '';
+            store.state.localStorage.gender = '';
+            store.state.localStorage.idNumber = '';
+            store.state.localStorage.role = '';
+            store.state.localStorage.pic = '';
+            console.log(store.state.token);
         },
     },
     actions: {

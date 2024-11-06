@@ -10,12 +10,7 @@ async function getPrice(){
     let response = await api.get('/room/price', {
         "token": store.state.token,
     })
-    if(response.data.code === 0){
-        return response.data;
-    }
-    else{
-        return response.data.message;
-    }
+    return response.data;
 }
 
 async function setPrice(editForm, newPrice) {
