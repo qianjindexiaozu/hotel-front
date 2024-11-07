@@ -9,29 +9,29 @@
     <div class="login-form">
         <img :src="logo2" class="logo"/>
         <div style="margin: 20px 0; text-align: center;font-size: 24px"><b>登 录</b></div>
-        <div class="form-container">
-            <div style="margin-top: 20px;">
+        <el-form class="form-container" :model="ruleForm" :rules="rules" ref="ruleForm">
+            <el-form-item prop="phone" style="margin-top: 20px;">
                 <el-icon style="margin-right: 5px;"><Cellphone /></el-icon>
-                <el-input v-model="phone" style="width: 240px" placeholder="请输入注册手机号" />
-            </div>
+                <el-input id="phone" v-model="ruleForm.phone" style="width: 240px" placeholder="请输入注册手机号" />
+            </el-form-item>
             <div style="margin: 10px 0"></div>
-            <div>
+            <el-form-item prop="password">
                 <el-icon style="margin-right: 5px;"><Key /></el-icon>
                 <el-input
-                    v-model="password"
+                    v-model="ruleForm.password"
                     style="width: 240px"
                     type="password"
                     placeholder="请输入密码"
                     show-password
                 />
-            </div>
+            </el-form-item>
             <div style="margin: 20px 0"></div>
             <el-button type="primary" @click="handleLogin">登录</el-button>
             <el-row style="margin-top: 40px; width: 100%;">
                 <el-col style="text-align: left;" :span="12"><el-link @click="handleRegiaster">还没注册？</el-link></el-col>
                 <el-col style="text-align: right;" :span="12"><el-link @click="handleForget">忘记密码？</el-link></el-col>
             </el-row>
-        </div>
+        </el-form>
     </div>
 </template>
 
@@ -49,6 +49,16 @@ import { ElNotification } from 'element-plus'
 
 export default {
     data() {
+        var checkPhone = (rule, value, callback) => {
+            if(!value){
+                return callback(new Error("手机号码不能为空"))
+            }
+            let res = this.phoneRegex.test(value);
+            if(!res){
+                return callback(new Error("手机号码格式错误"))
+            }
+            callback();
+        };
         return {
             images: [
                 img1,
@@ -58,14 +68,26 @@ export default {
             ],
             logo1,
             logo2,
-            phone:'',
-            password:'',
+            ruleForm:{
+                phone:'',
+                password:'',
+            },
+            rules:{
+                phone:[
+                    {required: true, message: '手机号码不能为空', trigger: 'blur'},
+                    {validator: checkPhone, trigger: 'blur'}
+                ],
+                password:[
+                    {required: true, message: '请填写密码', trigger: 'blur'},
+                ],
+            },
             message:'',
+            phoneRegex: /^1[3-9]\d{9}$/,
         };
     },
     methods:{
         handleLogin(){
-            user.login(this.phone, this.password).then((res) =>{
+            user.login(this.ruleForm.phone, this.ruleForm.password).then((res) =>{
                 if(res != null){
                     ElNotification({
                         title:"Error",
