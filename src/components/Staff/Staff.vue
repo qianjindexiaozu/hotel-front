@@ -6,7 +6,10 @@
                     <el-menu-item index='1' @click="setCurrent('ManageCheckIn')">          
                         办理入住
                     </el-menu-item>
-                    <el-menu-item index='2' @click="setCurrent('Self')">          
+                    <el-menu-item index='2' @click="setCurrent('ManageCheckOut')">          
+                        办理离店
+                    </el-menu-item>
+                    <el-menu-item index='3' @click="setCurrent('Self')">          
                         个人中心
                     </el-menu-item>
                 </el-menu>
@@ -24,6 +27,7 @@
 <script>
 import Self from '../Self.vue';
 import ManageCheckIn from './ManageCheckIn.vue';
+import ManageCheckOut from './ManageCheckOut.vue';
 
 export default {
     data() {
@@ -34,6 +38,7 @@ export default {
     components: {
         Self,
         ManageCheckIn,
+        ManageCheckOut,
     },
     methods: {
         setCurrent(component) {

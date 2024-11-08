@@ -56,7 +56,7 @@
             </div>
             <p>入住当天下午入住，离开当天上午离开</p>
             <p>入住 {{ length }} 夜</p>
-            <p class="price">{{ account.toFixed(2) }} ￥</p>
+            <p class="price">{{ amount.toFixed(2) }} ￥</p>
         </div>
         <span slot="footer" class="dialog-footer">
         <el-button @click="bookVisible = false">取消</el-button>
@@ -100,7 +100,7 @@ export default {
             startDate: null,
             date: [],
             length:null,
-            account:0,
+            amount:0,
             confirmDisable: true,
             formLabelWidth: '80px'
         };
@@ -130,11 +130,11 @@ export default {
             }
             this.length = (this.date[1] - this.date[0]) / (1000 * 60 * 60 * 24);
             if(this.condition === "Single"){
-                this.account = this.listData[0]["roomPrice"] * this.length;
+                this.amount = this.listData[0]["roomPrice"] * this.length;
             } else if(this.condition === "Double"){
-                this.account = this.listData[1]["roomPrice"] * this.length;
+                this.amount = this.listData[1]["roomPrice"] * this.length;
             } else{
-                this.account = this.listData[2]["roomPrice"] * this.length;
+                this.amount = this.listData[2]["roomPrice"] * this.length;
             }
             this.date[0] = utils.formatDate(this.date[0]);
             this.date[1] = utils.formatDate(this.date[1]);

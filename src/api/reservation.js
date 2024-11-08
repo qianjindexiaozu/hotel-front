@@ -2,6 +2,7 @@ export default{
     confirmBook,
     getReservations,
     cancelReservation,
+    getCheckInInfo,
 }
 
 import store from "@/stores"
@@ -40,5 +41,11 @@ async function cancelReservation(reservationId) {
     else{
         return response.data.message;
     }
-        
+}
+
+async function getCheckInInfo() {
+    let response = await api.get('/reservation/getCheckInInfo', {
+        "token": store.state.token,
+    })
+    return response.data;
 }

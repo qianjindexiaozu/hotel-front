@@ -9,14 +9,15 @@ import router from '@/router';
 import LoginedHeader from '@/components/LoginedHeader.vue';
 import Footer from '@/components/Footer.vue';
 import Staff from '@/components/Staff/Staff.vue'
+import store from '@/stores';
 
 export default{
     created(){
-        // if(store.state.token === ''){
-        //     router.replace({
-        //         path:"/"
-        //     })
-        // }
+        if(store.state.token === ''){
+            router.replace({
+                path:"/"
+            })
+        }
         setTimeout(() => {
             router.replace({
                 path: '/'

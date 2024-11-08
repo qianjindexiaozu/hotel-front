@@ -5,16 +5,11 @@
             <el-table-column label="房间类型" prop="roomType"></el-table-column>
             <el-table-column label="入住时间" prop="checkInDate"></el-table-column>
             <el-table-column label="离开时间" prop="checkOutDate"></el-table-column>
-            <el-table-column label="总金额" prop="account"></el-table-column>
-            <el-table-column label="状态" prop="reservationStatus"></el-table-column>
+            <el-table-column label="总金额" prop="amount"></el-table-column>
+            <!-- <el-table-column label="状态" prop="reservationStatus"></el-table-column> -->
             <el-table-column label="操作">
                 <template v-slot="scope">
-                    <div v-if="scope.row.reservationStatus === 'Canceled'">
-                        <p>已取消</p>
-                    </div>
-                    <div v-else>
-                        <el-button :disabled="scope.row.reservationStatus === 'Canceled'" @click="openEditDialog(scope.row)" size="small" type="danger">取消订单</el-button>
-                    </div> 
+                    <el-button @click="openEditDialog(scope.row)" size="small" type="danger">取消订单</el-button>
                 </template>
             </el-table-column>
         </el-table>
