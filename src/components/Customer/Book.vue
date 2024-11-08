@@ -73,6 +73,7 @@ import single from '@/assets/imgs/single.jpg';
 import double from '@/assets/imgs/double.jpg';
 import suite from '@/assets/imgs/suite.jpg';
 import reservation from '@/api/reservation';
+import utils from '@/utils';
   
 export default {
     data() {
@@ -135,8 +136,8 @@ export default {
             } else{
                 this.account = this.listData[2]["roomPrice"] * this.length;
             }
-            this.date[0] = this.formatDate(this.date[0]);
-            this.date[1] = this.formatDate(this.date[1]);
+            this.date[0] = utils.formatDate(this.date[0]);
+            this.date[1] = utils.formatDate(this.date[1]);
             room.questRoom(this.date, this.condition).then((res) => {
                 if(res === true){
                     this.confirmDisable = false;
@@ -149,13 +150,6 @@ export default {
                     })
                 }
             })
-        },
-        // 格式化日期为 yyyy-MM-dd
-        formatDate(date) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份是从0开始的
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
         },
         calendarChange(dates) {
             // 记录选择的开始日期，方便后面根据开始日期限定结束日期

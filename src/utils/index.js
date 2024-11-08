@@ -32,6 +32,14 @@ function apiAxois(method, url, params){
     })
 }
 
+// 格式化日期为 yyyy-MM-dd
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份是从0开始的
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 export default {
     get: function(url, params) {
         return apiAxois('GET', url, params)
@@ -45,4 +53,5 @@ export default {
     delete: function(url, params) {
         return apiAxois('DELETE', url, params)
     },
+    formatDate,
 }

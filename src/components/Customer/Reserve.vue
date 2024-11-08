@@ -6,10 +6,13 @@
                     <el-menu-item index='1' @click="setCurrent('Book')">          
                         预订客房             
                     </el-menu-item>
-                    <el-menu-item index='2' @click="setCurrent('Evaluate')">          
-                        评价中心             
+                    <el-menu-item index='2' @click="setCurrent('Reservations')">          
+                        我的预订             
                     </el-menu-item>
-                    <el-menu-item index='3' @click="setCurrent('Self')">          
+                    <el-menu-item index='3' @click="setCurrent('Evaluate')">          
+                        评价订单             
+                    </el-menu-item>
+                    <el-menu-item index='4' @click="setCurrent('Self')">          
                         个人中心             
                     </el-menu-item>
                 </el-menu>
@@ -29,6 +32,7 @@ import store from '@/stores';
 import Book from './Book.vue';
 import Self from '../Self.vue';
 import Evaluate from './Evaluate.vue';
+import Reservations from './Reservations.vue';
 
 export default {
     data() {
@@ -41,6 +45,7 @@ export default {
         Book,
         Self,
         Evaluate,
+        Reservations,
     },
     methods: {
         setCurrent(component) {
