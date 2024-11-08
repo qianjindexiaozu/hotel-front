@@ -1,7 +1,7 @@
 <template>
     <div class="title">
         <img :src="logo1" width="30" style="margin-left: 10px; margin-right: 10px;">
-        酒店管理系统
+        酒店欢迎您
     </div>
 </template>
 
@@ -18,13 +18,12 @@ export default{
 
 </script>
 
-<style>
+<style scoped>
 
 .title {
   display: flex;
   align-items: center;
   font-size: 30px;
-  font-family: 'Ding', sans-serif; 
   /* font-weight: bold;  */
   color: #000000;
   background-color: rgb(255, 255, 255);

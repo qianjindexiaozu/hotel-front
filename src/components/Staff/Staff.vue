@@ -3,14 +3,11 @@
         <el-aside width="200px">
             <el-scrollbar>
                 <el-menu>
-                    <el-menu-item index='1' @click="setCurrent('Book')">          
-                        预订客房             
+                    <el-menu-item index='1' @click="setCurrent('ManageCheckIn')">          
+                        办理入住
                     </el-menu-item>
-                    <el-menu-item index='2' @click="setCurrent('Evaluate')">          
-                        评价中心             
-                    </el-menu-item>
-                    <el-menu-item index='3' @click="setCurrent('Self')">          
-                        个人中心             
+                    <el-menu-item index='2' @click="setCurrent('Self')">          
+                        个人中心
                     </el-menu-item>
                 </el-menu>
             </el-scrollbar>
@@ -25,22 +22,18 @@
 </template>
 
 <script>
-import store from '@/stores';
-import Book from './Book.vue';
 import Self from '../Self.vue';
-import Evaluate from './Evaluate.vue';
+import ManageCheckIn from './ManageCheckIn.vue';
 
 export default {
     data() {
         return {
-            name: store.state.localStorage.name,
-            current: 'Book', // 默认显示的组件
+            current: 'ManageCheckIn', // 默认显示的组件
         };
     },
     components: {
-        Book,
         Self,
-        Evaluate,
+        ManageCheckIn,
     },
     methods: {
         setCurrent(component) {

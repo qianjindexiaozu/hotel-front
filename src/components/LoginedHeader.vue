@@ -83,7 +83,6 @@ export default{
   display: flex;
   align-items: center;
   font-size: 30px;
-  font-family: 'Ding', sans-serif; 
   /* font-weight: bold;  */
   color: #000000;
   background-color: rgb(255, 255, 255);

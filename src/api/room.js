@@ -5,6 +5,7 @@ export default{
     setRoom,
     deleteRoom,
     newRoom,
+    questRoom,
 }
 
 import api from '@/utils/index.js'
@@ -78,6 +79,21 @@ async function newRoom(ruleForm) {
         return true;
     }
     else{
+        return response.data.message;
+    }
+}
+
+async function questRoom(date, condition) {
+    let response = await api.get('/room/quest', {
+        "token": store.state.token,
+        "checkInDate": date[0],
+        "checkOutDate": date[1],
+        "roomType": condition,
+    })
+    if (response.data.code === 0){
+        return true;
+    }
+    else {
         return response.data.message;
     }
 }

@@ -1,11 +1,11 @@
 <template>
-    <LoginedHeader></LoginedHeader>
+    <Header></Header>
     <Reserve></Reserve>
     <Footer></Footer>
 </template>
 
 <script>
-import LoginedHeader from '@/components/LoginedHeader.vue';
+import Header from '@/components/Customer/Header.vue';
 import Footer from '@/components/Footer.vue';
 import Reserve from '@/components/Customer/Reserve.vue';
 import store from '@/stores';
@@ -25,7 +25,7 @@ export default{
         }, 1000 * 60 * 60)  // 一小时后强制退回登陆页面
     },
     components:{
-        LoginedHeader,
+        Header,
         Reserve,
         Footer,
     }

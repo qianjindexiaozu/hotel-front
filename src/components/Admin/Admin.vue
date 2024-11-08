@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import store from '@/stores';
 import ManageStaff from './ManageStaff.vue';
 import ManageRoom from './ManageRoom.vue';
 import Self from '../Self.vue';
@@ -50,8 +49,7 @@ import ManagePrice from './ManagePrice.vue';
 export default {
     data() {
         return {
-            name: store.state.localStorage.name,
-            current: 'Book', // 默认显示的组件
+            current: 'ManageRoom', // 默认显示的组件
         };
     },
     components: {

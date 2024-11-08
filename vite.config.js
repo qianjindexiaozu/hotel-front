@@ -23,6 +23,14 @@ export default defineConfig({
         target: 'http://localhost:8080', // 后端服务器地址
         changeOrigin: true,
       },
+      '/bill': {
+        target: 'http://localhost:8080', // 后端服务器地址
+        changeOrigin: true,
+      },
+      '/reservation': {
+        target: 'http://localhost:8080', // 后端服务器地址
+        changeOrigin: true,
+      },
     }
   }
 })
