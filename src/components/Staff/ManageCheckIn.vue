@@ -8,7 +8,7 @@
             <el-table-column label="房间类型" prop="roomType"></el-table-column>
             <el-table-column label="入住时间" prop="checkInDate"></el-table-column>
             <el-table-column label="离开时间" prop="checkOutDate"></el-table-column>
-            <el-table-column label="总金额" prop="account"></el-table-column>
+            <el-table-column label="总金额" prop="amount"></el-table-column>
             <el-table-column label="操作">
                 <template v-slot="scope">
                     <el-button @click="openEditDialog(scope.row)" size="small" type="primary">入住</el-button>   
@@ -25,8 +25,8 @@
                 <el-form-item label="第二个人的身份证号" prop="idNumber2" style="margin: 20px 0;" v-if="visible">
                     <el-input id="idNumber2" v-model="ruleForm.idNumber2" style="width: 300px;"/>
                 </el-form-item>
-                <el-form-item>
-                    <el-select v-model="selectedRoomId" placeholder="Select" style="width: 240px">
+                <el-form-item label="选择入住房间" prop="selectedRoomId">
+                    <el-select v-model="ruleForm.selectedRoomId" placeholder="Select" style="width: 240px">
                         <el-option
                             v-for="item in rooms"
                             :key="item.roomId"
@@ -78,11 +78,11 @@ export default {
             },
             userId:'',
             rules:{
-                name:[
+                name2:[
                     {required: true, message: '姓名不能为空', trigger: 'blur'},
                     {min:2, max:30, message: '长度应在2到30之间', trigger: 'blur'}
                 ],
-                idNumber:[
+                idNumber2:[
                     {required: true, message: '身份证号码不能为空', trigger: 'blur'},
                     {validator: checkIdNumber, trigger: 'blur'}
                 ],
@@ -120,6 +120,9 @@ export default {
   
         // 打开编辑弹窗
         openEditDialog(row) {
+            this.ruleForm.name2='';
+            this.ruleForm.idNumber2='';
+            this.ruleForm.selectedRoomId='';
             this.reservationId = row.reservationId; // 将要编辑的行数据传入表单
             this.visible = (row.roomType !== 'Single');
             this.userId = row.userId;
@@ -142,7 +145,7 @@ export default {
   
         // 保存编辑的数据
         saveEdit() {
-            this.$refs.ruleForm.validator((valid) => {
+            this.$refs.ruleForm.validate((valid) => {
                 if(valid){
                     bill.newBill(this.reservationId, this.userId, this.ruleForm).then((res) => {
                     if(res === true){

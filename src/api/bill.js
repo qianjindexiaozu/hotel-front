@@ -3,6 +3,7 @@ export default{
 }
 
 import store from "@/stores"
+import api from "@/utils"
 
 async function newBill(reservationId, userId, ruleForm) {
     let response = await api.post('/bill/new', {
