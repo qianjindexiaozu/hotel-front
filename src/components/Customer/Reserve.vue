@@ -9,8 +9,8 @@
                     <el-menu-item index='2' @click="setCurrent('Reservations')">          
                         我的预订             
                     </el-menu-item>
-                    <el-menu-item index='3' @click="setCurrent('Evaluate')">          
-                        评价订单             
+                    <el-menu-item index='3' @click="setCurrent('Bills')">          
+                        我的订单             
                     </el-menu-item>
                     <el-menu-item index='4' @click="setCurrent('Self')">          
                         个人中心             
@@ -31,7 +31,7 @@
 import store from '@/stores';
 import Book from './Book.vue';
 import Self from '../Self.vue';
-import Evaluate from './Evaluate.vue';
+import Bills from './Bills.vue';
 import Reservations from './Reservations.vue';
 
 export default {
@@ -44,7 +44,7 @@ export default {
     components: {
         Book,
         Self,
-        Evaluate,
+        Bills,
         Reservations,
     },
     methods: {

@@ -228,23 +228,31 @@ export default {
         },
         openNewDialog(){
             this.newVisible = true;
+            this.ruleForm.name = '';
+            this.ruleForm.gender = '';
+            this.ruleForm.idNumber = '';
+            this.ruleForm.phone = '';
         },
         newInfo(){
-            user.newStaff(this.ruleForm).then((res) => {
-                if(res === true){
-                    ElNotification({
-                        title:'Success',
-                        message:"新增成功",
-                        type:'success',
-                    })
-                    this.fetchData();
-                    this.newVisible = false;
-                }
-                else{
-                    ElNotification({
-                        title:'Error',
-                        message:res,
-                        type:'error',
+            this.$refs.ruleForm.validate((valid) => {
+                if(valid){
+                    user.newStaff(this.ruleForm).then((res) => {
+                        if(res === true){
+                            ElNotification({
+                                title:'Success',
+                                message:"新增成功",
+                                type:'success',
+                            })
+                            this.fetchData();
+                            this.newVisible = false;
+                        }
+                        else{
+                            ElNotification({
+                                title:'Error',
+                                message:res,
+                                type:'error',
+                            })
+                        }
                     })
                 }
             })

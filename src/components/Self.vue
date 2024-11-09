@@ -29,7 +29,6 @@
             </el-form-item>
             <el-form-item style="margin-bottom: 0;">
                 <el-button type="primary" style="margin: 10px;" @click="changeInfo">修改</el-button>
-                <el-button @click="handleCancle">取消</el-button>
             </el-form-item>
         </el-form>
             

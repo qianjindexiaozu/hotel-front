@@ -82,7 +82,9 @@ export default {
             }
 
             // 3. 格式化为两位小数
-            newPrice = Math.floor(newPrice * 100) / 100;
+            console.log(newPrice);
+            newPrice = Math.round(newPrice * 100) / 100;
+            console.log(newPrice);
 
             room.setPrice(editForm, newPrice).then((res) => {
                 if(res === true){
