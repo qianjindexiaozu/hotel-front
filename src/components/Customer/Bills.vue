@@ -33,6 +33,31 @@
             <el-button type="success" @click="confirmPayment()">确认支付</el-button>
             </span>
         </el-dialog>
+
+        <!-- 评价弹窗 -->
+        <el-dialog v-model="feedbcakVisible" title="订单评价">  
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+                <el-form-item label="评分" prop="rating" style="margin: 20px 0;">
+                    <el-rate id="rating" v-model="ruleForm.rating" :colors="colors" size="large" allow-half />
+                </el-form-item>
+                <el-form-item label="评价" prop="feedbackText" style="margin: 20px 0;">
+                    <el-input
+                        id="feedbackText"
+                        v-model="ruleForm.feedbackText"
+                        style="width: 400px"
+                        :autosize="{ minRows: 2, maxRows: 4 }"
+                        type="textarea"
+                        placeholder="请输入评价"
+                    />
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+            <el-button @click="paymentVisible = false">取消</el-button>
+            <el-button type="primary" @click="saveFeedback()">保存评价</el-button>
+            </span>
+        </el-dialog>
+
+
     </div>
 </template>
 
@@ -49,7 +74,19 @@ export default {
             feedbcakVisible: false,
             formLabelWidth: '80px',
             billInfo:{},
-
+            ruleForm:{
+                rating:'',
+                feedbackText:''
+            },
+            rules:{
+                rating:[
+                    {required: true, message: '评分必须填写', trigger: 'blur'}
+                ],
+                feedbackText:[
+                    {min:0, max:200, message: '长度应在200以内', trigger: 'blur'}
+                ],
+            },
+            colors:['#99A9BF', '#F7BA2A', '#FF9900'],
         };
     },
     methods: {
@@ -105,7 +142,35 @@ export default {
         },
 
         openFeedbackDialog(row){
+            this.billInfo = row;
+            this.ruleForm.feedbackText='';
+            this.ruleForm.rating='';
             this.feedbcakVisible=true;
+        },
+        saveFeedback(){
+            this.$refs.ruleForm.validate((valid) => {
+                if(valid){
+                    bill.setFeedback(this.billInfo.billId, this.ruleForm).then((res) => {
+                        if(res === true){
+                            ElNotification({
+                                title:'Success',
+                                message:'评价成功',
+                                type:'success',
+                            })
+                            this.feedbcakVisible = false;
+                            this.billInfo = {};
+                            this.fetchData();
+                        }
+                        else{
+                            ElNotification({
+                                title:'Error',
+                                message: res,
+                                type:'error',
+                            })
+                        }
+                    })
+                }
+            })
         },
 
     },

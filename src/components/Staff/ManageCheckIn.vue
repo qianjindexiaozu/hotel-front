@@ -126,12 +126,14 @@ export default {
             this.reservationId = row.reservationId; // 将要编辑的行数据传入表单
             this.visible = (row.roomType !== 'Single');
             this.userId = row.userId;
+            console.log(this.userId)
             // console.log(this.reservationId)
             this.editVisible = true;
             console.log(row.roomType)
             room.getAvailableRoom(row.roomType).then((res) => {
                 if(res.code === 0){
                     this.rooms = res.data;
+                    console.log(this.rooms)
                 }
                 else {
                     ElNotification({

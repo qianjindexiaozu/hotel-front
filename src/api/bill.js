@@ -4,6 +4,9 @@ export default{
     confirmPayment,
     getCheckOutInfo,
     leave,
+    setFeedback,
+    getFeedbacks,
+    getPaidBillInfo,
 }
 
 import store from "@/stores"
@@ -64,4 +67,33 @@ async function leave(billId) {
     else{
         return response.data.message;
     }
+}
+
+async function setFeedback(billId, ruleForm) {
+    let response = await api.post('/bill/setFeedback', {
+        "token": store.state.token,
+        "billId": billId,
+        "rating": ruleForm.rating,
+        "feedbackText": ruleForm.feedbackText, 
+    })
+    if(response.data.code === 0){
+        return true;
+    }
+    else{
+        return response.data.message;
+    }
+}
+
+async function getFeedbacks() {
+    let response = await api.get('/bill/getFeedback', {
+        "token": store.state.token,
+    })
+    return response.data;
+}
+
+async function getPaidBillInfo() {
+    let response = await api.get('/bill/getPaidBillInfo', {
+        "token": store.state.token,
+    })
+    return response.data;
 }
