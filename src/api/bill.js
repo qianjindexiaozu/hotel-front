@@ -2,6 +2,8 @@ export default{
     newBill,
     getBillInfo,
     confirmPayment,
+    getCheckOutInfo,
+    leave,
 }
 
 import store from "@/stores"
@@ -35,6 +37,26 @@ async function confirmPayment(billId) {
     let response = await api.put('/bill/pay', {
         "token": store.state.token,
         "billId": billId
+    })
+    if(response.data.code === 0){
+        return true;
+    }
+    else{
+        return response.data.message;
+    }
+}
+
+async function getCheckOutInfo() {
+    let response = await api.get('/bill/checkOutInfo', {
+        "token": store.state.token,
+    })
+    return response.data;
+}
+
+async function leave(billId) {
+    let response = await api.put('/bill/leave', {
+        "token": store.state.token,
+        "billId": billId,
     })
     if(response.data.code === 0){
         return true;
