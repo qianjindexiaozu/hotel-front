@@ -6,7 +6,7 @@ export default{
     leave,
     setFeedback,
     getFeedbacks,
-    getPaidBillInfo,
+    getThisMonthInfo,
 }
 
 import store from "@/stores"
@@ -91,8 +91,8 @@ async function getFeedbacks() {
     return response.data;
 }
 
-async function getPaidBillInfo() {
-    let response = await api.get('/bill/getPaidBillInfo', {
+async function getThisMonthInfo() {
+    let response = await api.get('/bill/getThisMonthInfo', {
         "token": store.state.token,
     })
     return response.data;

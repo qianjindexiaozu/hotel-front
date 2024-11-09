@@ -7,6 +7,7 @@ export default{
     newRoom,
     questRoom,
     getAvailableRoom,
+    getSumRoomNumber,
 }
 
 import api from '@/utils/index.js'
@@ -103,6 +104,13 @@ async function getAvailableRoom(roomType) {
     let response = await api.get('/room/getAvailableRoom', {
         "token": store.state.token,
         "roomType": roomType,
+    })
+    return response.data;
+}
+
+async function getSumRoomNumber() {
+    let response = await api.get('/room/getSumRoomNumber', {
+        "token": store.state.token,
     })
     return response.data;
 }
