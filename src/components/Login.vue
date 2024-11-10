@@ -27,7 +27,7 @@
             </el-form-item>
             <div style="margin: 20px 0"></div>
             <el-button type="primary" @click="handleLogin">登录</el-button>
-            <el-row style="margin-top: 40px; width: 100%;">
+            <el-row style="margin-top: 10px; width: 100%;">
                 <el-col style="text-align: left;" :span="12"><el-link @click="handleRegiaster">还没注册？</el-link></el-col>
                 <el-col style="text-align: right;" :span="12"><el-link @click="handleForget">忘记密码？</el-link></el-col>
             </el-row>
