@@ -7,7 +7,7 @@
                     content="RevPAR=总营业额/总可用房间数"
                     placement="top"
                 >
-                    <el-statistic title="本月RevPAR" :value="RevPAR" />
+                    <el-statistic title="本月RevPAR" :value="RevPAR"/>
                 </el-tooltip>
             </div>
         </el-col>
@@ -18,21 +18,15 @@
         </el-col>
     </el-row>
 
-    <p>单人间订单：{{ singleNumber }}</p>
-    <p>单人间营业额：{{ singleIncome }}</p>
-    <p>双人间订单：{{ doubleNumber }}</p>
-    <p>双人间营业额：{{ doubleIncome }}</p>
-    <p>套房订单: {{ suiteNumber }}</p>
-    <p>套房营业额：{{ suiteIncome }}</p>
-    <p>本月总营业额：{{ sumIncome }}</p>
-    <p>总可用房间数: {{ sumRoomNumber }}</p>
-    <p>本月RevPAR: {{ RevPAR }}</p>
+    <div class="echart" id="mychart" :style="myChartStyle"></div>
 </template>
 
 <script>
 import { ElNotification } from 'element-plus';
 import bill from '@/api/bill';
 import room from '@/api/room';
+import * as echarts from "echarts";
+
   
 export default {
     data() {
@@ -48,6 +42,8 @@ export default {
             suiteIncome:0,
             RevPAR:0,
             sumRoomNumber:'',
+            xData: ["单人间", "双人间", "套房"], //横坐标
+            myChartStyle: { float: "left", width: "100%", height: "400px" } //图表样式
         };
     },
     methods: {
@@ -79,7 +75,6 @@ export default {
                     this.RevPAR = 0;
                     let length = this.listData.length;
                     for(let i = 0; i < length; i++){
-                        console.log(this.listData[i])
                         if(this.listData[i].roomType === 'Single'){
                             this.singleNumber++;
                             this.singleIncome += this.listData[i].amount;
@@ -98,6 +93,7 @@ export default {
                     this.doubleIncome = this.doubleIncome.toFixed(2)
                     this.suiteIncome = this.suiteIncome.toFixed(2)
                     this.RevPAR = (this.sumIncome / this.sumRoomNumber).toFixed(2);
+                    this.initEcharts();
                 }
                 else{
                     ElNotification({
@@ -107,11 +103,74 @@ export default {
                     })
                 }
             });
-            
         },
+        initEcharts() {
+        // 多列柱状图
+        const mulColumnZZTData = {
+            xAxis: {
+                data: this.xData
+            },
+            // 图例
+            legend: {
+                data: ["订单数", "营业额"],
+                top: "0%"
+            },
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '订单数',
+                    min: 0,
+                    position: 'left',
+                    axisLabel: {
+                        formatter: '{value}'
+                    }
+                },
+                {
+                    type: 'value',
+                    name: '营业额',
+                    min: 0,
+                    position: 'right',
+                    axisLabel: {
+                        formatter: '{value} ￥'
+                    }
+                }
+            ],
+            series: [
+                {
+                    type: "bar", //形状为柱状图
+                    data: [this.singleNumber, this.doubleNumber, this.suiteNumber],
+                    yAxisIndex: 0,
+                    name: "订单数", // legend属性
+                    label: {
+                        // 柱状图上方文本标签，默认展示数值信息
+                        show: true,
+                        position: "top"
+                    }
+                },
+                {
+                    type: "bar", //形状为柱状图
+                    data: [this.singleIncome, this.doubleIncome, this.suiteIncome],
+                    yAxisIndex: 1,
+                    name: "营业额", // legend属性
+                    label: {
+                        // 柱状图上方文本标签，默认展示数值信息
+                        show: true,
+                        position: "top"
+                    }
+                }
+            ]
+        };
+        const myChart = echarts.init(document.getElementById("mychart"));
+            myChart.setOption(mulColumnZZTData);
+            //随着屏幕大小调节图表
+            window.addEventListener("resize", () => {
+                myChart.resize();
+            });
+        }
     },
     mounted() {
       this.fetchData(); // 页面加载时获取数据
+      
     }
 };
 </script>

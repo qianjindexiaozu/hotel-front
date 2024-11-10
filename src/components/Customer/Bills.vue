@@ -17,7 +17,7 @@
                         评价
                     </el-button>
                     <el-button v-else 
-                        @click="openFeedbackDialog(scope.row)" size="small" type="primary">
+                        @click="openFeedback(scope.row)" size="small" type="primary">
                         查看评价
                     </el-button>
                     
@@ -52,11 +52,32 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-            <el-button @click="paymentVisible = false">取消</el-button>
+            <el-button @click="feedbcakVisible = false">取消</el-button>
             <el-button type="primary" @click="saveFeedback()">保存评价</el-button>
             </span>
         </el-dialog>
 
+        <!-- 查看评价 -->
+        <el-dialog v-model="LookFeedbcak" title="评价详情">  
+            <el-form ref="ruleForm">
+                <el-form-item label="评分" style="margin: 20px 0;">
+                    <el-rate id="rating" v-model="ruleForm.rating" :colors="colors" disabled size="large" allow-half />
+                </el-form-item>
+                <el-form-item label="评价" style="margin: 20px 0;">
+                    <el-input
+                        id="feedbackText"
+                        v-model="ruleForm.feedbackText"
+                        style="width: 400px"
+                        :autosize="{ minRows: 2, maxRows: 4 }"
+                        type="textarea"
+                        disabled
+                    />
+                </el-form-item>
+                <span slot="footer" class="dialog-footer">
+            <el-button @click="LookFeedbcak = false">取消</el-button>
+            </span>
+            </el-form>
+        </el-dialog>
 
     </div>
 </template>
@@ -72,6 +93,7 @@ export default {
             listData: [],        // 用来存储从后端获取的数据
             paymentVisible: false, // 弹窗是否可见
             feedbcakVisible: false,
+            LookFeedbcak: false,
             formLabelWidth: '80px',
             billInfo:{},
             ruleForm:{
@@ -172,7 +194,23 @@ export default {
                 }
             })
         },
-
+        openFeedback(row){
+            bill.getFeedbackByBill(row.billId).then((res) => {
+                if(res.code === 0){
+                    this.ruleForm.rating = res.data.rating;
+                    this.ruleForm.feedbackText = res.data.comments;
+                    this.LookFeedbcak = true;
+                }
+                else{
+                    ElNotification({
+                        title:'Error',
+                        message:res.message,
+                        type:'error',
+                    });
+                }
+            })
+            
+        },
     },
     mounted() {
       this.fetchData(); // 页面加载时获取数据

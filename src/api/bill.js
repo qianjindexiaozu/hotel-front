@@ -7,6 +7,7 @@ export default{
     setFeedback,
     getFeedbacks,
     getThisMonthInfo,
+    getFeedbackByBill,
 }
 
 import store from "@/stores"
@@ -94,6 +95,14 @@ async function getFeedbacks() {
 async function getThisMonthInfo() {
     let response = await api.get('/bill/getThisMonthInfo', {
         "token": store.state.token,
+    })
+    return response.data;
+}
+
+async function getFeedbackByBill(billId) {
+    let response = await api.get('/bill/getFeedbackByBill', {
+        "token": store.state.token,
+        "billId": billId,
     })
     return response.data;
 }

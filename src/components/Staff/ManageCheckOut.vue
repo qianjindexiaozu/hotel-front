@@ -8,6 +8,7 @@
             <el-table-column label="姓名2" prop="name2"></el-table-column>
             <el-table-column label="证件号码2" prop="idNumber2"></el-table-column>
             <el-table-column label="房间类型" prop="roomType"></el-table-column>
+            <el-table-column label="房间号" prop="roomNumber"></el-table-column>
             <el-table-column label="入住时间" prop="checkInDate"></el-table-column>
             <el-table-column label="离开时间" prop="checkOutDate"></el-table-column>
             <el-table-column label="总金额" prop="amount"></el-table-column>
